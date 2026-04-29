@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"] - Hairnic - Single Product Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <partial name="_Link_href" />
+</head>
+
+<body>
+    <!-- Spinner Start -->
+   <partial name="_spingloading" />
+    <!-- Spinner End -->
+    <!-- Navbar Start -->
+    <partial name="_navbar_start" />
+    <!-- Navbar End -->
+    @RenderBody()
+    <!-- Footer Start -->
+    <partial name="_footer" />
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <partial name="_javascripts" />
+
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
