@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,8 +9,8 @@
     <!-- Hero End -->
 
     <!-- Product Start -->
-  <partial name="_list_product" /> 
-    <!-- Product End -->
+<partial name="_Show_product" model="Model" />
+<!-- Product End -->
 
     <!-- Newsletter Start -->
     <div class="container-fluid newsletter bg-primary py-5 my-5">
@@ -31,4 +32,79 @@
             </div>
         </div>
     </div>
-    <!-- Newsletter End -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var typingTimer;
+            var doneTypingInterval = 500;
+
+         
+            $(document).on('keyup', '#txtTimKiem', function () {
+                clearTimeout(typingTimer);
+                var chuVuaGo = $(this).val();
+
+                typingTimer = setTimeout(function () {
+
+                   
+                    $.ajax({
+                        url: '/Product/TimKiemSP',
+                        type: 'GET',
+                        data: { tuKhoa: chuVuaGo },
+
+                        beforeSend: function () {
+                            NProgress.start(); 
+                            $('#khung-chua-san-pham').css({ 'opacity': '0.4', 'pointer-events': 'none' });
+                        },
+
+                        success: function (htmlKetQua) {
+                            $('#khung-chua-san-pham').html(htmlKetQua);
+                        },
+
+                        complete: function () {
+                            NProgress.done(); 
+                            $('#khung-chua-san-pham').css({ 'opacity': '1', 'pointer-events': 'auto' });
+                        },
+                        error: function () {
+                            console.log("Lỗi tìm kiếm");
+                        }
+                    });
+
+                }, doneTypingInterval);
+            });
+
+            $(document).on('input', '#priceRange', function () {
+                var giaTriHienTai = $(this).val();
+                $('#giaHienThi').text(Number(giaTriHienTai).toLocaleString('vi-VN') + " đ");
+            });
+
+            $(document).on('change', '#priceRange', function () {
+                var mucGiaChon = $(this).val();
+
+                $.ajax({
+                    url: '/Product/LocTheoGia',
+                    type: 'GET',
+                    data: { giaTien: mucGiaChon },
+
+                    beforeSend: function () {
+                        NProgress.start();
+                        $('#khung-chua-san-pham').css({ 'opacity': '0.4', 'pointer-events': 'none' });
+                    },
+
+                    success: function (htmlKetQua) {
+                        $('#khung-chua-san-pham').html(htmlKetQua);
+                    },
+
+                    complete: function () {
+                        NProgress.done(); 
+                        $('#khung-chua-san-pham').css({ 'opacity': '1', 'pointer-events': 'auto' });
+                    },
+                    error: function () {
+                        console.log("Lỗi khi lọc giá!");
+                    }
+                });
+            });
+
+        });
+    </script>
+}

@@ -1,4 +1,14 @@
-﻿ <!-- Navbar Start -->
+﻿@using QuaMonBa_Store.Helpers
+@using QuaMonBa_Store.data
+
+@{
+    // 1. Dùng Helper gọi List Giỏ hàng từ Session ra
+    var cart = Context.Session.Get<List<GioHang>>("GioHang");
+
+    // 2. Tính tổng số lượng (Nếu giỏ hàng có đồ thì cộng dồn cột SoLuong lại, nếu null thì gán bằng 0)
+    int tongSoLuongGioHang = cart != null ? cart.Sum(c => c.SoLuong) : 0;
+}
+<!-- Navbar Start -->
 <div class="container-fluid sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light p-0">
@@ -11,7 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto">
-                    <a href="/" class="nav-item nav-link active">Home</a> 
+                    <a href="/" class="nav-item nav-link">Home</a> 
                     <a href="/Home/About" class="nav-item nav-link">About</a>
                     <a href="/Product/Index" class="nav-item nav-link">Products</a>
                     <div class="nav-item dropdown">
@@ -26,6 +36,12 @@
                     </div>
                     <a href="/Home/Contact" class="nav-item nav-link">Contact</a>
                 </div>
+                <a href="/Shopcart/Index" class="btn btn-primary py-2 px-3 d-none d-lg-inline-block position-relative" title="Giỏ hàng">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75rem; padding: 0.35em 0.65em;">
+                        @tongSoLuongGioHang
+                    </span>
+                </a>
                 <a href="/Login/Index" class="btn btn-primary py-2 px-3 d-none d-lg-inline-block" title="Đăng nhập">
                     <i class="fas fa-user"></i>
                 </a>

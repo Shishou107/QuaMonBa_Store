@@ -1,0 +1,10 @@
+﻿@model IEnumerable<QuaMonBa_Store.ViewComponentModels.MenuLoaiVM>
+@foreach (var item in Model)
+{
+    <a asp-controller="Product" asp-action="Index" asp-route-maLoai="@item.MaLoai" class="list-group-item list-group-item-action border-0 px-0">
+        @item.TenLoai
+        <span class="badge bg-primary rounded-pill float-end">
+            @item.Soluong
+        </span>
+    </a>
+}

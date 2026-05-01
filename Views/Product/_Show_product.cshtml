@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QuaMonBa_Store.ViewComponentModels.HangHoaVM>
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="text-primary mb-3"><span class="fw-light text-dark">Our Natural</span> Hair Products</h1>
+            <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <input type="text" id="txtTimKiem" class="form-control mb-4" placeholder="Tìm kiếm dầu gội, kem dưỡng...">
+        <div class="row g-5">
+            <div class="col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                <div class="sidebar-item border p-4 mb-4">
+                    <h4 class="text-primary mb-4">Loại sản phẩm</h4>
+                    <div class="list-group list-group-flush">
+                        @await Component.InvokeAsync("MenuLoai")
+                    </div>
+                </div>
+
+                <div class="sidebar-item border p-4">
+                    <h4 class="text-primary mb-4">Lọc theo giá</h4>
+
+                    <!-- Thêm min, max, step và value mặc định -->
+                    <!-- Giả sử giá cao nhất là 5 triệu, mỗi lần kéo thụt 50k -->
+                    <input type="range" class="form-range" id="priceRange" min="0" max="200000" step="100" value="200000">
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span class="text-muted">0 đ</span>
+                        <!-- Chỗ này để hiển thị số tiền nhảy liên tục khi kéo -->
+                        <span id="giaHienThi" class="fw-bold text-danger">200,000 đ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row g-4" id="khung-chua-san-pham">
+                        <partial name="_list_product" model="Model" />
+                    <div class="col-12 wow fadeIn" data-wow-delay="0.1s">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-lg justify-content-center mt-5 mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link rounded-0" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+
+                                <li class="page-item">
+                                    <a class="page-link rounded-0" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
