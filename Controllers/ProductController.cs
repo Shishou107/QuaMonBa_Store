@@ -10,36 +10,11 @@ namespace QuaMonBa_Store.Controllers
         private readonly Hshop2023Context _context;
         public ProductController(Hshop2023Context context) => _context = context;
 
-        public IActionResult Index(int? maloai)
+        private IQueryable<HangHoaVM> GetProductQuery()
         {
-            var query = _context.HangHoas.Include(h => h.MaLoaiNavigation).AsQueryable();
-
-            if (maloai.HasValue)
-            {
-                query = query.Where(h => h.MaLoai == maloai.Value);
-            }
-
-            var listHangHoa = query.Select(h => new HangHoaVM
-            {
-                MaHH = h.MaHh,
-                TenHH = h.TenHh,
-                DonGia = h.DonGia,
-                HinhAnh = h.Hinh,
-                MoTaNgan = h.MoTa,
-                TenLoai = h.MaLoaiNavigation.TenLoai
-            }).ToList();
-
-            return View(listHangHoa);
-        }
-        [HttpGet]
-        public async Task<IActionResult> TimKiemSP(string tuKhoa)
-        {
-
-            var query = _context.HangHoas.Include(h => h.MaLoaiNavigation).AsQueryable();
-
-            if (string.IsNullOrEmpty(tuKhoa))
-            {
-                var listMacDinh = await query.Select(h => new HangHoaVM
+            return _context.HangHoas.Include(h => h.MaLoaiNavigation)
+                .OrderBy(h => h.MaHh)
+                .Select(h => new HangHoaVM
                 {
                     MaHH = h.MaHh,
                     TenHH = h.TenHh,
@@ -47,48 +22,66 @@ namespace QuaMonBa_Store.Controllers
                     HinhAnh = h.Hinh,
                     MoTaNgan = h.MoTa,
                     TenLoai = h.MaLoaiNavigation.TenLoai
-                }).ToListAsync(); 
-
-                return PartialView("_list_product", listMacDinh);
-            }
-
-            ViewBag.TuKhoa = tuKhoa;
-            query = query.Where(h => h.TenHh.Contains(tuKhoa));
-
-            var ketQuaSearch = await query.Select(h => new HangHoaVM
-            {
-                MaHH = h.MaHh,
-                TenHH = h.TenHh,
-                DonGia = h.DonGia,
-                HinhAnh = h.Hinh,
-                MoTaNgan = h.MoTa,
-                TenLoai = h.MaLoaiNavigation.TenLoai
-            }).Take(20).ToListAsync();
-
-            return PartialView("_list_Product_search", ketQuaSearch);
+                });
         }
-        [HttpGet]
-        public async Task<IActionResult> LocTheoGia(double giaTien) 
+
+        public IActionResult Index(int? maloai, int page = 1)
         {
-            var query = _context.HangHoas.Include(h => h.MaLoaiNavigation).AsQueryable();
+            int pageSize = 9;
+            var query = _context.HangHoas.AsQueryable();
 
-            // Lọc lấy sản phẩm có giá <= giá tiền khách chọn
-            query = query.Where(h => h.DonGia <= giaTien);
+            if (maloai.HasValue) query = query.Where(h => h.MaLoai == maloai.Value);
 
-            // Biến đổi dữ liệu sang ViewModel
-            var ketQuaLoc = await query.Select(h => new HangHoaVM
-            {
-                MaHH = h.MaHh,
-                TenHH = h.TenHh,
-                DonGia = h.DonGia,
-                HinhAnh = h.Hinh,
-                MoTaNgan = h.MoTa,
-                TenLoai = h.MaLoaiNavigation.TenLoai
-            }).ToListAsync();
+            int totalItems = query.Count();
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.MaLoai = maloai;
 
-            // Bạn có thể dùng lại luôn file _list_product vì nó chung cấu trúc
-            return PartialView("_list_product", ketQuaLoc);
+            var listHangHoa = GetProductQuery()
+                .Where(h => !maloai.HasValue || _context.HangHoas.First(x => x.MaHh == h.MaHH).MaLoai == maloai)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+            return View(listHangHoa);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TimKiemSP(string tuKhoa, int page = 1)
+        {
+            int pageSize = 9;
+            var query = _context.HangHoas.Where(h => string.IsNullOrEmpty(tuKhoa) || h.TenHh.Contains(tuKhoa));
+
+            int totalItems = await query.CountAsync();
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.TuKhoa = tuKhoa;
+
+            var ketQua = await GetProductQuery()
+                .Where(h => string.IsNullOrEmpty(tuKhoa) || h.TenHH.Contains(tuKhoa))
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
+
+            // Trả về Partial View chứa cả sản phẩm và phân trang
+            return PartialView("_ProductListPartial", ketQua);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LocTheoGia(double giaTien, int page = 1)
+        {
+            int pageSize = 9;
+            var query = _context.HangHoas.Where(h => h.DonGia <= giaTien);
+
+            int totalItems = await query.CountAsync();
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.GiaTien = giaTien;
+
+            var ketQua = await GetProductQuery()
+                .Where(h => h.DonGia <= giaTien)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
+
+            return PartialView("_ProductListPartial", ketQua);
         }
     }
-
 }

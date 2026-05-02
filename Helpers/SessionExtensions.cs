@@ -1,5 +1,5 @@
-﻿using System.Text.Json; 
-using Microsoft.AspNetCore.Http; 
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 namespace QuaMonBa_Store.Helpers
 {
     public static class SessionExtensions
