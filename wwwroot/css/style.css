@@ -1,4 +1,4 @@
-﻿/********** Template CSS **********/
+/********** Template CSS **********/
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -24,15 +24,7 @@
 img.animated.pulse {
     animation-duration: 5s;
 }
-.product-item img {
-    transition: transform 0.3s ease;
-    object-fit: contain;
-    height: 250px; /* Cố định chiều cao để các ô bằng nhau */
-}
 
-.product-item:hover img {
-    transform: scale(1.1); /* Hiệu ứng phóng to nhẹ khi di chuột vào */
-}
 /*** Button ***/
 .btn {
     font-weight: 500;

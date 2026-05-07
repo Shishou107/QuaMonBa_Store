@@ -11,9 +11,9 @@ public partial class KhachHang
 
     public string HoTen { get; set; } = null!;
 
-    public bool GioiTinh { get; set; }
+    public bool? GioiTinh { get; set; }
 
-    public DateTime NgaySinh { get; set; }
+    public DateTime? NgaySinh { get; set; }
 
     public string? DiaChi { get; set; }
 

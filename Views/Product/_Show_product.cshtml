@@ -10,7 +10,7 @@
             <div class="col-lg-3 wow fadeIn" data-wow-delay="0.1s">
                 <div class="sidebar-item border p-4 mb-4">
                     <h4 class="text-primary mb-4">Loại sản phẩm</h4>
-                    <div class="list-group list-group-flush">
+                    <div  class="list-group list-group-flush">
                         @await Component.InvokeAsync("MenuLoai")
                     </div>
                 </div>
@@ -31,10 +31,16 @@
             </div>
 
             <div class="col-lg-9">
+
+                <!-- 1. KHUNG NÀY ĐỂ AJAX ĐÈ KẾT QUẢ TÌM KIẾM / LỌC GIÁ VÀO -->
                 <div class="row g-4" id="khung-chua-san-pham">
-                        <partial name="_list_product" model="Model" />
-                    <div class="col-12">
-                        <div class="pagination d-flex justify-content-center mt-5">
+                    <!-- Render mặc định lúc mới vào web -->
+                    <partial name="_list_product" model="Model" />
+                </div>
+
+                <!-- 2. THANH PHÂN TRANG NẰM TRÁNH RA NGOÀI ĐỂ KHÔNG BỊ XÓA -->
+                <div class="col-12 mt-5">
+                    <div class="pagination d-flex justify-content-center">
                             @if (ViewBag.TotalPages > 1)
                             {
                                 int total = ViewBag.TotalPages;
@@ -79,4 +85,3 @@
             </div>
         </div>
     </div>
-</div>

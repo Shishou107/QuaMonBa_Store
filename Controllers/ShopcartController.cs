@@ -2,6 +2,7 @@
 using QuaMonBa_Store.data;
 using QuaMonBa_Store.Data;
 using QuaMonBa_Store.Helpers;
+using System.Text.Json;
 
 namespace QuaMonBa_Store.Controllers
 {
@@ -75,6 +76,35 @@ namespace QuaMonBa_Store.Controllers
             {
                 myCart.Remove(item);
                 HttpContext.Session.Set("GioHang", myCart); // Nhớ cập nhật lại Session sau khi xóa
+            }
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult UpdateQuantity(int id, string type)
+        {
+            // Cực kỳ ngắn gọn, khử luôn warning bằng ?? new List<GioHang>()
+            var cart = HttpContext.Session.Get<List<GioHang>>("GioHang") ?? new List<GioHang>();
+
+            var item = cart.FirstOrDefault(p => p.MaHH == id);
+
+            if (item != null)
+            {
+                if (type == "plus")
+                {
+                    item.SoLuong++;
+                }
+                else if (type == "minus")
+                {
+                    item.SoLuong--;
+                    if (item.SoLuong <= 0)
+                    {
+                        cart.Remove(item);
+                    }
+                }
+
+                // Lưu lại cũng siêu gọn
+                HttpContext.Session.Set("GioHang", cart);
             }
 
             return RedirectToAction("Index");

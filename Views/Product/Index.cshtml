@@ -32,79 +32,102 @@
             </div>
         </div>
     </div>
-@section Scripts {
+
+
+<div class="modal fade" id="modalSuaSanPham" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+
+        <div class="modal-content shadow-lg" id="khung-chua-form-sua" style="border: 2px solid #848884;">
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
     <script>
         $(document).ready(function () {
+            // In ra dòng này để chắc chắn Javascript đã được nạp
+            console.log("✅ JAVASCRIPT ĐÃ LOAD THÀNH CÔNG!");
 
             var typingTimer;
             var doneTypingInterval = 500;
 
-         
+            // 1. TÌM KIẾM
             $(document).on('keyup', '#txtTimKiem', function () {
                 clearTimeout(typingTimer);
                 var chuVuaGo = $(this).val();
+                console.log("👉 Đang tìm kiếm từ khóa: ", chuVuaGo);
 
                 typingTimer = setTimeout(function () {
-
-                   
                     $.ajax({
-                        url: '/Product/TimKiemSP',
+                        url: '@Url.Action("TimKiemSP", "Product")', // Dùng Razor sinh link chuẩn 100%
                         type: 'GET',
                         data: { tuKhoa: chuVuaGo },
-
                         beforeSend: function () {
-                            NProgress.start(); 
                             $('#khung-chua-san-pham').css({ 'opacity': '0.4', 'pointer-events': 'none' });
                         },
-
                         success: function (htmlKetQua) {
+                            console.log("✅ Dữ liệu tìm kiếm trả về thành công!");
                             $('#khung-chua-san-pham').html(htmlKetQua);
                         },
-
                         complete: function () {
-                            NProgress.done(); 
                             $('#khung-chua-san-pham').css({ 'opacity': '1', 'pointer-events': 'auto' });
                         },
-                        error: function () {
-                            console.log("Lỗi tìm kiếm");
+                        error: function (xhr, status, error) {
+                            console.error("❌ LỖI TÌM KIẾM AJAX: ", error);
+                            console.error("Chi tiết lỗi: ", xhr.responseText);
                         }
                     });
-
                 }, doneTypingInterval);
             });
 
+            // 2. HIỂN THỊ SỐ TIỀN KHI KÉO
             $(document).on('input', '#priceRange', function () {
                 var giaTriHienTai = $(this).val();
                 $('#giaHienThi').text(Number(giaTriHienTai).toLocaleString('vi-VN') + " đ");
             });
 
+            // 3. LỌC THEO GIÁ
             $(document).on('change', '#priceRange', function () {
                 var mucGiaChon = $(this).val();
+                console.log("👉 Đang lọc giá: ", mucGiaChon);
 
                 $.ajax({
-                    url: '/Product/LocTheoGia',
+                    url: '@Url.Action("LocTheoGia", "Product")', // Dùng Razor sinh link chuẩn 100%
                     type: 'GET',
                     data: { giaTien: mucGiaChon },
-
                     beforeSend: function () {
-                        NProgress.start();
                         $('#khung-chua-san-pham').css({ 'opacity': '0.4', 'pointer-events': 'none' });
                     },
-
                     success: function (htmlKetQua) {
+                        console.log("✅ Dữ liệu lọc giá trả về thành công!");
                         $('#khung-chua-san-pham').html(htmlKetQua);
                     },
-
                     complete: function () {
-                        NProgress.done(); 
                         $('#khung-chua-san-pham').css({ 'opacity': '1', 'pointer-events': 'auto' });
                     },
-                    error: function () {
-                        console.log("Lỗi khi lọc giá!");
+                    error: function (xhr, status, error) {
+                        console.error("❌ LỖI LỌC GIÁ AJAX: ", error);
+                        console.error("Chi tiết lỗi: ", xhr.responseText);
                     }
                 });
             });
-
         });
+
+        // HÀM MỞ FORM SỬA (Giữ nguyên)
+        function moFormSua(id) {
+            $.ajax({
+                url: '/Product/Edit/' + id,
+                type: 'GET',
+                success: function (data) {
+                    $('#khung-chua-form-sua').html(data);
+                    var myModal = new bootstrap.Modal(document.getElementById('modalSuaSanPham'));
+                    myModal.show();
+                },
+                error: function () {
+                    alert("Không thể tải form sửa!");
+                }
+            });
+        }
     </script>
 }

@@ -1,4 +1,7 @@
+﻿using ECommerceMVC.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using QuaMonBa_Store.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +13,18 @@ builder.Services.AddDbContext<Hshop2023Context>(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+});
+// Đã thêm cfg => {} vào làm tham số đầu tiên
+builder.Services.AddAutoMapper(cfg => { }, typeof(AutoMapperProfile));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    options.LoginPath = "/Khachhang/Index";
+    options.AccessDeniedPath = "/Khachhang/Index";
 });
 var app = builder.Build();
 
@@ -28,7 +40,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

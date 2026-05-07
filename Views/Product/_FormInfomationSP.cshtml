@@ -1,0 +1,38 @@
+﻿@model QuaMonBa_Store.Data.HangHoa
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="MaHh" />
+
+    <div class="modal-header bg-primary text-white py-2">
+        <h6 class="modal-title small">
+            <i class="fas fa-tools me-2"></i> Chỉnh sửa: #@Model.MaHh
+        </h6>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body bg-white">
+        <div class="text-center mb-3">
+            <img src="~/img/shampoo.png"
+                 class="rounded shadow-sm border"
+                 style="height: 100px; width: 100px; object-fit: cover;"
+                 onerror="this.src='/images/no-image.png'" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Tên sản phẩm</label>
+            <input asp-for="TenHh" class="form-control form-control-sm border-primary" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small fw-bold">Giá bán (VNĐ)</label>
+            <input asp-for="DonGia" type="number" class="form-control form-control-sm text-danger fw-bold" required />
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light py-2">
+        <button type="button" class="btn btn-xs btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="submit" class="btn btn-sm btn-primary px-3">
+            <i class="fas fa-save me-1"></i> Cập nhật
+        </button>
+    </div>
+</form>

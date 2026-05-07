@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using QuaMonBa_Store.Data;
-using QuaMonBa_Store.ViewComponentModels;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuaMonBa_Store.Data;
+using QuaMonBa_Store.Helpers;
+using QuaMonBa_Store.ViewComponentModels;
 
 namespace QuaMonBa_Store.Controllers
 {
@@ -62,7 +65,7 @@ namespace QuaMonBa_Store.Controllers
                 .Take(pageSize).ToListAsync();
 
             // Trả về Partial View chứa cả sản phẩm và phân trang
-            return PartialView("_ProductListPartial", ketQua);
+            return PartialView("_list_Product_search", ketQua);
         }
 
         [HttpGet]
@@ -81,7 +84,45 @@ namespace QuaMonBa_Store.Controllers
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
 
-            return PartialView("_ProductListPartial", ketQua);
+            return PartialView("_list_Product", ketQua);
         }
+        public IActionResult Edit(int id)
+        {
+            var product = _context.HangHoas.Find(id);
+            if (product == null) return NotFound();
+            // Trả về PartialView để nhét vào Modal, không trả về View toàn trang
+            return PartialView("_FormInfomationSP", product);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult Edit(HangHoa product)
+        {
+            var existingProduct = _context.HangHoas.Find(product.MaHh);
+            if (existingProduct == null) return NotFound();
+
+            existingProduct.TenHh = product.TenHh;
+            existingProduct.DonGia = product.DonGia;
+            // Cập nhật thêm các trường khác nếu cần (Hinh, MaLoai...)
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [Authorize(Roles = "Admin")]    
+        public IActionResult Delete(int id) 
+        {  
+            var product = _context.HangHoas.Find(id);
+            if (product == null) return NotFound();
+            _context.HangHoas.Remove(product);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+      
+
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Create() 
+        //{ 
+
+        //}
     }
 }

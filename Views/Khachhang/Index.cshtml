@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Khai báo biến kiểm tra form nào đang được kích hoạt từ Controller
+    bool isRegisterActive = ViewBag.ActiveForm == "Register";
+}
+
+<div class="container-fluid bg-primary hero-header mb-5">
+    <div class="container text-center">
+        <h1 class="display-4 text-white mb-3 animated slideInDown">Đăng nhập / Đăng ký</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
+                <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Account</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div id="partialContainer">
+    <div id="boxLogin" class="@(isRegisterActive ? "d-none" : "")">
+        @{
+            // Lấy dữ liệu cũ ra (nếu nhập sai), nếu không thì tạo model rỗng
+            var loginModel = ViewBag.LoginModel as QuaMonBa_Store.ViewComponentModels.KhachhangDangnhapVM
+            ?? new QuaMonBa_Store.ViewComponentModels.KhachhangDangnhapVM();
+        }
+        <partial name="Dangnhap" model="loginModel" />
+    </div>
+
+    <div id="boxRegister" class="@(isRegisterActive ? "" : "d-none")">
+        @{
+            // Lấy dữ liệu cũ ra (nếu nhập sai), nếu không thì tạo model rỗng
+            var registerModel = ViewBag.RegisterModel as QuaMonBa_Store.ViewComponentModels.KhachhangVM
+            ?? new QuaMonBa_Store.ViewComponentModels.KhachhangVM();
+        }
+        <partial name="Dangky" model="registerModel" />
+    </div>
+</div>
+
+<div class="container-fluid newsletter bg-primary py-5 my-5">
+    <div class="container py-5">
+        <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="text-white mb-3"><span class="fw-light text-dark">Let's Subscribe</span> The Newsletter</h1>
+            <p class="text-white mb-4">Subscribe now to get 30% discount on any of our products</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 wow fadeIn" data-wow-delay="0.5s">
+                <div class="position-relative w-100 mt-3 mb-2">
+                    <input class="form-control w-100 py-4 ps-4 pe-5" type="text" placeholder="Enter Your Email"
+                           style="height: 48px;">
+                    <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2">
+                        <i class="fa fa-paper-plane text-white fs-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        // Khi bấm nút "Đã có tài khoản" bên trong form Đăng ký
+        $(document).on('click', '#btnSwitchToLogin', function (e) {
+            e.preventDefault(); // Chặn submit form
+
+            // Ẩn form Đăng ký, Hiện form Đăng nhập
+            $('#boxRegister').addClass('d-none');
+            $('#boxLogin').removeClass('d-none');
+        });
+
+        // Khi bấm nút "Tạo tài khoản mới" bên trong form Đăng nhập
+        $(document).on('click', '#btnSwitchToRegister', function (e) {
+            e.preventDefault(); // Chặn submit form
+
+            // Ẩn form Đăng nhập, Hiện form Đăng ký
+            $('#boxLogin').addClass('d-none');
+            $('#boxRegister').removeClass('d-none');
+        });
+    </script>
+}
