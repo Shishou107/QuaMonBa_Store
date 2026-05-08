@@ -1,11 +1,9 @@
-﻿@{
+﻿@model QuaMonBa_Store.Data.HangHoa
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-   
-</style>
 <div class="container-fluid bg-primary hero-header mb-5">
     <div class="container text-center">
         <h1 class="display-4 text-white mb-3 animated slideInDown">Giỏ Hàng</h1>
@@ -22,227 +20,45 @@
     <div class="container py-5">
         <div class="row g-4">
 
-            <div class="col-lg-5 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="input-group w-100 mx-auto d-flex mb-4">
-                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                </div>
-
-                <div class="product-categories mb-4">
-                    <h4>Products Categories</h4>
-                    <ul class="list-unstyled">
-                        <li>
-                            <div class="categories-item">
-                                <a href="#" class="text-dark">
-                                    <i class="fas fa-apple-alt text-secondary me-2"></i> Accessories
-                                </a>
-                                <span>(3)</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="categories-item">
-                                <a href="#" class="text-dark">
-                                    <i class="fas fa-apple-alt text-secondary me-2"></i> Electronics & Computer
-                                </a>
-                                <span>(5)</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="categories-item">
-                                <a href="#" class="text-dark">
-                                    <i class="fas fa-apple-alt text-secondary me-2"></i> Laptops & Desktops
-                                </a>
-                                <span>(2)</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="categories-item">
-                                <a href="#" class="text-dark">
-                                    <i class="fas fa-apple-alt text-secondary me-2"></i> Mobiles & Tablets
-                                </a>
-                                <span>(8)</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="categories-item">
-                                <a href="#" class="text-dark">
-                                    <i class="fas fa-apple-alt text-secondary me-2"></i> SmartPhone & Smart TV
-                                </a>
-                                <span>(5)</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="additional-product mb-4">
-                    <h4>Select By Color</h4>
-                    <div class="additional-product-item">
-                        <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="Beverages">
-                        <label for="Categories-1" class="text-dark"> Gold</label>
-                    </div>
-                    <div class="additional-product-item">
-                        <input type="radio" class="me-2" id="Categories-2" name="Categories-1" value="Beverages">
-                        <label for="Categories-2" class="text-dark"> Green</label>
-                    </div>
-                    <div class="additional-product-item">
-                        <input type="radio" class="me-2" id="Categories-3" name="Categories-1" value="Beverages">
-                        <label for="Categories-3" class="text-dark"> White</label>
+            <div class="col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                <div class="sidebar-item border p-4 mb-4">
+                    <h4 class="text-primary mb-4">Loại sản phẩm</h4>
+                    <div class="list-group list-group-flush">
+                        @await Component.InvokeAsync("MenuLoai")
                     </div>
                 </div>
 
-                <div class="featured-product mb-4">
-                    <h4 class="mb-3">Featured products</h4>
-
-                    <div class="featured-product-item">
-                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                            <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                        </div>
-                        <div>
-                            <h6 class="mb-2">SmartPhone</h6>
-                            <div class="d-flex mb-2">
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="featured-product-item">
-                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                            <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                        </div>
-                        <div>
-                            <h6 class="mb-2">Smart Camera</h6>
-                            <div class="d-flex mb-2">
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="featured-product-item">
-                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                            <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                        </div>
-                        <div>
-                            <h6 class="mb-2">Camera Leance</h6>
-                            <div class="d-flex mb-2">
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="featured-product-item">
-                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                            <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                        </div>
-                        <div>
-                            <h6 class="mb-2">Smart Camera</h6>
-                            <div class="d-flex mb-2">
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-center my-4">
-                        <a href="#" class="btn btn-primary px-4 py-3 rounded-pill w-100">View More</a>
-                    </div>
-                </div>
-
-                <a href="#">
-                    <div class="position-relative">
-                        <img src="~/img/shampoo-1.png" class="img-fluid w-100 rounded" alt="Image">
-                        <div class="text-center position-absolute d-flex flex-column align-items-center justify-content-center rounded p-4"
-                             style="width: 100%; height: 100%; top: 0; right: 0; background: rgba(242, 139, 0, 0.3);">
-                            <h5 class="display-6 text-primary">SALE</h5>
-                            <h4 class="text-secondary">Get UP To 50% Off</h4>
-                            <span class="btn btn-primary rounded-pill px-4">Shop Now</span>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="product-tags my-4">
-                    <h4 class="mb-3">PRODUCT TAGS</h4>
-                    <div class="product-tags-items bg-light rounded p-3">
-                        <a href="#" class="border rounded py-1 px-2 mb-2">New</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">brand</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">black</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">white</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">tablets</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">phone</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">camera</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">drone</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">television</a>
-                        <a href="#" class="border rounded py-1 px-2 mb-2">sales</a>
-                    </div>
-                </div>
+                <partial name="_featured_products" />
             </div>
+
             <div class="col-lg-7 col-xl-9 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="row g-4 single-product">
 
-                    <div class="col-xl-6">
-                        <div class="single-carousel owl-carousel">
-                            <div class="single-item" data-dot="<img class='img-fluid' src='/img/shampoo-1.png' alt=''>">
-                                <div class="single-inner bg-light rounded">
-                                    <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                                </div>
-                            </div>
-                            <div class="single-item" data-dot="<img class='img-fluid' src='/img/shampoo-1.png' alt=''>">
-                                <div class="single-inner bg-light rounded">
-                                    <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                                </div>
-                            </div>
-                            <div class="single-item" data-dot="<img class='img-fluid' src='/img/shampoo-1.png' alt=''>">
-                                <div class="single-inner bg-light rounded">
-                                    <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                                </div>
-                            </div>
-                            <div class="single-item" data-dot="<img class='img-fluid' src='/img/shampoo-1.png' alt=''>">
-                                <div class="single-inner bg-light rounded">
-                                    <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                                </div>
-                            </div>
-                            <div class="single-item" data-dot="<img class='img-fluid' src='/img/shampoo-1.png' alt=''>">
-                                <div class="single-inner bg-light rounded">
-                                    <img src="~/img/shampoo-1.png" class="img-fluid rounded" alt="Image">
-                                </div>
+                    <div class="col-md-6 col-xl-6">
+                        <div class="single-inner bg-light rounded">
+                            <img src="~/img/shampoo-1.png" class="img-fluid rounded w-100" alt="Product Image">
+                        </div>
+                        <div class="product-tags my-4">
+                            <h4 class="mb-3">PRODUCT TAGS</h4>
+                            <div class="product-tags-items bg-light rounded p-3">
+                                <a href="#" class="border rounded py-1 px-2 mb-2">New</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">brand</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">black</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">white</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">tablets</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">phone</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">camera</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">drone</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">television</a>
+                                <a href="#" class="border rounded py-1 px-2 mb-2">sales</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-xl-6">
-                        <h4 class="fw-bold mb-3">Smart Camera</h4>
-                        <p class="mb-3">Category: Electronics</p>
-                        <h5 class="fw-bold mb-3">3,35 $</h5>
+                        <h4 class="fw-bold mb-3">@Model.TenHh</h4>
+                        <p class="mb-3">@Model.MaLoaiNavigation.TenLoai</p>
+                        <h5 class="fw-bold mb-3">@Model.DonGia VNĐ</h5>
                         <div class="d-flex mb-4">
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -259,14 +75,14 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column mb-3">
-                            <small>Product SKU: N/A</small>
-                            <small>Available: <strong class="text-primary">20 items in stock</strong></small>
+                            <small>Product SKU: @Model.TenAlias</small>
+                            <small>Available: <strong class="text-primary">@Model.MaLoaiNavigation.HangHoas.Count() items in stock</strong></small>
                         </div>
                         <p class="mb-4">
-                            The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.
+                            @Model.MoTa
                         </p>
                         <p class="mb-4">
-                            Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish
+                           
                         </p>
 
                         <div class="input-group quantity mb-5" style="width: 100px;">
@@ -581,7 +397,37 @@
                 dots: true,
                 dotsData: true
             });
+        // 4. HIỂN THỊ SỐ TIỀN KHI KÉO
+             $(document).on('input', '#priceRange', function () {
+                 var giaTriHienTai = $(this).val();
+                 $('#giaHienThi').text(Number(giaTriHienTai).toLocaleString('vi-VN') + " đ");
+             });
 
-        }); // <---- CHÍNH LÀ DÒNG NÀY ĐÂY (BẠN ĐANG BỊ THIẾU NÓ)
+             // 5. LỌC THEO GIÁ (AJAX)
+             $(document).on('change', '#priceRange', function () {
+                 var mucGiaChon = $(this).val();
+                 console.log("👉 Đang lọc giá: ", mucGiaChon);
+
+                 $.ajax({
+                     url: '@Url.Action("LocTheoGia", "Product")',
+                     type: 'GET',
+                     data: { giaTien: mucGiaChon },
+                     beforeSend: function () {
+                         $('#khung-chua-san-pham').css({ 'opacity': '0.4', 'pointer-events': 'none' });
+                     },
+                     success: function (htmlKetQua) {
+                         console.log("✅ Dữ liệu lọc giá trả về thành công!");
+                         $('#khung-chua-san-pham').html(htmlKetQua);
+                     },
+                     complete: function () {
+                         $('#khung-chua-san-pham').css({ 'opacity': '1', 'pointer-events': 'auto' });
+                     },
+                     error: function (xhr, status, error) {
+                         console.error("❌ LỖI LỌC GIÁ AJAX: ", error);
+                         console.error("Chi tiết lỗi: ", xhr.responseText);
+                     }
+                 });
+             });
+        });
     </script>
 }

@@ -427,3 +427,8 @@ img.animated.pulse {
     padding-right: 0;
     border-right: none;
 }
+.shop .featured-product .featured-product-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}

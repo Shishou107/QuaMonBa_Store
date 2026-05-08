@@ -117,12 +117,12 @@ namespace QuaMonBa_Store.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-      
+
 
         //[Authorize(Roles = "Admin")]
         //public IActionResult Create() 
         //{ 
 
-        //}
+
     }
 }

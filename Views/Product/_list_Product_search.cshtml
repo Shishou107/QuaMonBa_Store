@@ -19,7 +19,10 @@
                 <small class="fa fa-star text-primary"></small>
                 <small>(99)</small>
             </div>
-            <a href="" class="h6 d-inline-block mb-2">@item.TenHH</a>
+            <!-- Code mới đã sửa -->
+            <a asp-controller="SingleProduct" asp-action="Index" asp-route-id="@item.MaHH" class="h6 d-inline-block mb-2">
+                @item.TenHH
+            </a>           
             <h5 class="text-primary mb-3">@item.DonGia VNĐ</h5>
          @*    @if (User.IsInRole("Admin"))
             {
